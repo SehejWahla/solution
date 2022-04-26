@@ -1,0 +1,30 @@
+long dfs(int i, vector<bool>& visited, vector<vector<int>>& graph){
+    long ans=1;
+    visited[i]=true;
+    for(auto child:graph[i]){
+        if(!visited[child]) ans+=dfs(child, visited, graph);
+    }
+    return ans;
+}
+
+
+long roadsAndLibraries(int n, int c_lib, int c_road, vector<vector<int>> cities) {
+    vector<vector<int>> graph(n);
+    for(int i=0;i<cities.size();i++){
+        int a=cities[i][0]-1;
+        int b=cities[i][1]-1;
+        graph[a].push_back(b);
+        graph[b].push_back(a);
+    }
+    vector<long> components;
+    vector<bool> visited(n, false);
+    
+    for(int i=0;i<n;i++){
+        if(!visited[i]) components.push_back(dfs(i, visited, graph));
+    }
+    long ans=0;
+    for(auto c: components){
+        ans += min(c_lib*c, (c-1)*c_road+c_lib);
+    }
+    return ans;
+}
