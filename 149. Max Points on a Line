@@ -1,0 +1,24 @@
+class Solution {
+public:
+    int maxPoints(vector<vector<int>>& points) {
+        if(points.size()==1) return 1;
+        int res = 1;
+        for(auto p_root : points){
+            int res_root = 1;
+            map<string, int> slope_count;
+            for(auto p : points){
+                if(p[0]==p_root[0] && p[1]==p_root[1]) continue;
+                double slope;
+                if(p[0]-p_root[0] != 0) slope = double(p[1]-p_root[1]) /  double(p[0]-p_root[0]);
+                else slope = INT_MAX;
+                stringstream ss;
+                ss << fixed << setprecision(15) << slope;
+                string slope_str = ss.str();                
+                ++slope_count[slope_str];
+                res_root = max(res_root, slope_count[slope_str]+1);
+            }
+            res = max(res, res_root);
+        }
+        return res;
+    }
+};
