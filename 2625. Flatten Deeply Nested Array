@@ -1,0 +1,19 @@
+/**
+ * @param {Array} arr
+ * @param {number} depth
+ * @return {Array}
+ */
+var flat = function (arr, n) {
+    res = []
+    var helper = (vec, depth)=>{
+        for(let item of vec){
+            if(typeof item === "number") res.push(item)
+            else{
+                if(depth+1===n) res.push(item)
+                else helper(item, depth+1)
+            }
+        }
+    }
+    helper(arr, -1);
+    return res;
+};
